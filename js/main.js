@@ -235,9 +235,17 @@ $(document).ready(() =>{
 	}
 
 	const generateMoviePosters = ()=>{
-		document.getElementById("moviePosters").innerHTML = ""
+		let posters = document.getElementById("moviePosters")
+		posters.innerHTML = ""
+		posters.setAttribute('class', 'd-flex flex-wrap justify-content-center justify-content-sm-center')
+		// let posters = $('moviePosters').html('')
+		let loading = document.createElement("img")
+		loading.src = "img/371.gif"
+		// loading.setAttribute('class', 'text-center justify-content-center')
+		loading.style.width = '20em';
+		posters.appendChild(loading)
 		getMovies((data)=>{ //we get the data and assign it to form
-
+			posters.innerHTML = ""
 			console.log(data)
 			data.forEach( movie =>{
 				
@@ -249,7 +257,7 @@ $(document).ready(() =>{
 				
 				
 				if(typeof movie.poster != 'string'){
-					container.style.background = `url('/img/placeholder.png')`;
+					container.style.background = `url('img/placeholder.png')`;
 				}else{
 					container.style.background = `url(${movie.poster})`;
 					
@@ -297,6 +305,7 @@ $(document).ready(() =>{
 				document.getElementById("moviePosters").appendChild(container)
 
 			})
+			posters.setAttribute('class', 'd-flex flex-wrap justify-content-center justify-content-sm-start')
 
 		})
 	}
