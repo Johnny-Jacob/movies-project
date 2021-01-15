@@ -40,10 +40,10 @@
 
 		<h2 class="p-2">Add Movie</h2>
 		<form id="addForm" class="form-group">
-			<input class="col form-control m-2" type="text" placeholder="Title" name="title">
-			<input class="col form-control m-2" type="text" placeholder="Genre" name="genre">
+			<input class="col form-control m-2" type="text" placeholder="Title" name="title" id="title">
+			<input class="col form-control m-2" type="text" placeholder="Genre" name="genre" id="genre">
 			<!-- datepicker -->
-			<input name="year" type="text" class="form-control col m-2" data-provide="datepicker" placeholder="Year">
+			<input name="year" type="text" class="form-control col m-2" data-provide="datepicker" placeholder="Year" id="year">
 			<div class="input-group-addon">
 				<span class="glyphicon glyphicon-th"></span>
 			</div>
@@ -57,11 +57,11 @@
 				<option value="5">5</option>
 			</select>
 
-			<input class="col form-control m-2" type="text" placeholder="Director" name="director">
-			<textarea class="col form-control m-2" name="plot" id="plot" cols="30" rows="10" placeholder="Plot">
+			<input class="col form-control m-2" type="text" placeholder="Director" name="director" id="director">
+			<textarea class="col form-control m-2" name="plot" id="plot" cols="30" rows="10" placeholder="Plot" id="plot"></textarea>
+			<input class="col form-control m-2" style="resize: none;" type="text" placeholder="Actors" name="actors" id="actors">
 
-                </textarea>
-			<input class="col form-control m-2" style="resize: none;" type="text" placeholder="Actors" name="actors">
+			<button id="submit">Submit form</button>
 
 		</form>
 	</div>
