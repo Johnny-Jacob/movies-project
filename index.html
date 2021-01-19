@@ -44,9 +44,23 @@
 
 	<div id="add">
 
-		<h2 class="p-2" id="modeTitle">Add Movie</h2>
+
+		<h2 class="col p-2 m-2" id="modeTitle">Add Movie</h2>
+			
+
+		
+
 		<form id="addForm" class="form-group">
-			<input class="col form-control m-2" type="text" placeholder="Title" name="title" id="title">
+
+			<div class="input-group m-2">
+				<input class="col form-control 0 d-inline" type="text" placeholder="Title" name="title" id="title">
+				<div class="input-group-append">
+					<button class="input-group-text btn d-inline" id="autoFillButton">
+						<i class="fas fa-film"></i> Autofill 
+					</button>
+				</div>
+			</div>
+
 			<input class="col form-control m-2" type="text" placeholder="Genre" name="genre" id="genre">
 			<!-- datepicker -->
 			<input name="year" type="text" class="form-control col m-2" data-provide="datepicker" placeholder="Year" id="year">
@@ -79,10 +93,63 @@
 
 </div>
 
+	<!-- Button trigger modal -->
+  
+	<!-- Modal -->
+	<div class="modal fade" id="movieInfo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content ">
+			<div class="modal-header">
+			<h5 class="modal-title text-center" id="movieTitle">Movie Title</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-6 ">
+						<img id="modalPoster" src="img/placeholder.png" alt="" class="w-100">
+					</div>
+					
+					<div class="col">
+						<div id="modalGenre">
+							Genre: 
+						</div>
+						<div id="modalYear">
+							Year: 
+						</div>
+						<div id="modalRating">
+							Rating: 
+						</div>
+						<div id="modalDirector">
+							Director: 
+						</div>
+						<div id="modalActors"> 
+							Actors: 
+						</div>
+						<div id="modalPlot">
+							Plot: 
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	<div class="invisible position-absolute row justify-content-center align-content-center" style="top:0;width:100vw;height:100vh;background: rgba(0,0,0,0.4); overflow:hidden" id="loaderImage">
+        <img src="img/371.gif" alt="loading">
+    </div>
+
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
-
+<script src="keys.js"></script>
 <script src="js/main.js"></script>
 </html>
