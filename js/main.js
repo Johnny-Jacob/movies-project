@@ -252,7 +252,7 @@ $(document).ready(() =>{
 						title,
 						rating,
 						year,
-						poster: `/img/placeholder.png`,
+						poster: `img/placeholder.png`,
 						genre,
 						director,
 						plot,
@@ -364,7 +364,6 @@ $(document).ready(() =>{
 
 			$('#title').val(data.title)
 			$('#genre').val(data.genre)
-
 			$('#year').val(data.year.slice(0,4))
 			$('#rating').children().first().attr("selected")
 			$('#director').val(data.director)
