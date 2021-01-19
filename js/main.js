@@ -364,7 +364,8 @@ $(document).ready(() =>{
 
 			$('#title').val(data.title)
 			$('#genre').val(data.genre)
-			$('#year').val(data.year)
+
+			$('#year').val(data.year.slice(0,4))
 			$('#rating').children().first().attr("selected")
 			$('#director').val(data.director)
 			$('#plot').val(data.plot)
