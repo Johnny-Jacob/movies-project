@@ -95,6 +95,10 @@ $(document).ready(() =>{
 	let genres = [{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"},{"id":99,"name":"Documentary"},{"id":18,"name":"Drama"},{"id":10751,"name":"Family"},{"id":14,"name":"Fantasy"},{"id":36,"name":"History"},{"id":27,"name":"Horror"},{"id":10402,"name":"Music"},{"id":9648,"name":"Mystery"},{"id":10749,"name":"Romance"},{"id":878,"name":"Science Fiction"},{"id":10770,"name":"TV Movie"},{"id":53,"name":"Thriller"},{"id":10752,"name":"War"},{"id":37,"name":"Western"}]
 
 
+	const loaderToggle = ()=>{
+		document.getElementById("loaderImage").classList.toggle('invisible')
+	}
+
 	const getPosterImage = (name, callback) =>{
 
         var input = ""
@@ -123,6 +127,23 @@ $(document).ready(() =>{
 
 	}
 
+	const getActors = (id, callback) =>{
+
+        var input = ""
+        var args = String(name).split(" ")
+        args.forEach( (arg,i) =>{
+            if(i == args.length-1){
+                input += arg;
+            }else{
+                input += arg;
+                input += "%20"
+            } 
+        })
+
+		
+
+	}
+
 	const autoFillInfo = () =>{
 		var input = ""
         var args = String($('#title').val()).split(" ")
@@ -147,7 +168,6 @@ $(document).ready(() =>{
 				res.json().then(data=>{
 
 					let movie = data.results[0]
-
 					let title = $('#title').val(movie.original_title)
 					let genreString = ""
 					movie.genre_ids.forEach( (id,i) =>{ //filters though known genre id's and creates a string 
@@ -163,11 +183,51 @@ $(document).ready(() =>{
 					})
 				
 					let genre = $('#genre').val(genreString)
-					let year = $('#year').val(movie.release_date)
+					let year = $('#year').val(movie.release_date.slice(0,4))
 					let rating = $('#rating').val(Math.floor(movie.vote_average/2))
-					let director = $('#director').val()
+					
 					let plot = $('#plot').val(movie.overview)
-					let actors = $('#actors').val()
+
+					const url = `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${MOVIEKEY}&language=en-US`;
+					const options = {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+						}
+					};
+					fetch( url, options).then(
+						(res)=>{
+							res.json().then( moreData =>{
+								console.log(moreData)
+								//gets actors string
+								let actorsStr = ""
+								moreData.cast.forEach( (actor,i) =>{ //filters though known genre id's and creates a string 
+									if(i == moreData.cast.length-1){
+										actorsStr += `${actor.name}`
+									}else if(i > 3){ //wont list more than three
+										return
+									}else{
+										actorsStr += `${actor.name}, `
+									}
+								})
+
+								//works on getting director
+								let crewStr = moreData.crew.reduce((total, member, i) =>{
+									if(i == moreData.crew.length-1 && member.department == "Directing") return total += member.name 
+									if(member.department == "Directing"){
+										return total += member.name + ", "
+									}
+									return total
+								}, "")
+								
+								console.log(crewStr)
+								let director = $('#director').val(crewStr)
+								let actors = $('#actors').val(actorsStr)
+							})
+						}
+					)
+
+					
 				})
 			}
 		)
@@ -220,27 +280,28 @@ $(document).ready(() =>{
 		let plot = $('#plot').val()
 		let actors = $('#actors').val()
 
-		
-		getPosterImage(title, (res)=>{
-			res.json().then( data=>{
-				
-				let newMovie = {
-					title,
-					rating,
-					year,
-					poster: `img/placeholder.png`,
-					genre,
-					director,
-					plot,
-					actors
-				}
-		
-				query.put(editMovie, id,(res)=>{
-					//confirm to user movie has been added
-					generateMoviePosters()
-				})
+		getMovie(id, (data)=>{
+
+			let editMovie = {
+				title,
+				rating,
+				year,
+				poster: data.poster,
+				genre,
+				director,
+				plot,
+				actors
+			}
+	
+			query.put(editMovie, id,(res)=>{
+				//confirm to user movie has been added
+				generateMoviePosters()
 			})
+			
+
+			
 		})
+		
 
 	}
 
@@ -294,12 +355,9 @@ $(document).ready(() =>{
 	}
 
 	const modalMovieInfo = (id = 1) =>{
-
+		loaderToggle()
 		getMovie(id,(data)=>{ //we get the data and assign it to form
 			
-			console.log("test")
-			console.log(data)
-
 			$('#movieTitle').html(data.title)
 			$('#modalPoster').attr("src",data.poster);
 			$('#modalGenre').html(`<strong>Genre:</strong> ${data.genre}`)
@@ -308,7 +366,7 @@ $(document).ready(() =>{
 			$('#modalDirector').html(`<strong>Director:</strong> ${data.director}`)
 			$('#modalActors').html(`<strong>Actors:</strong> ${data.actors}`)
 			$('#modalPlot').html(`<strong>Plot:</strong> ${data.plot}`)
-
+			loaderToggle()
 		})
 
 	}
@@ -358,13 +416,7 @@ $(document).ready(() =>{
 	const generateMoviePosters = ()=>{
 		let posters = document.getElementById("moviePosters")
 		posters.innerHTML = ""
-		posters.setAttribute('class', 'd-flex flex-wrap justify-content-center justify-content-sm-center')
-		// let posters = $('moviePosters').html('')
-		let loading = document.createElement("img")
-		loading.src = "img/371.gif"
-		// loading.setAttribute('class', 'text-center justify-content-center')
-		loading.style.width = '20em';
-		posters.appendChild(loading)
+		loaderToggle()
 		getMovies((data)=>{ //we get the data and assign it to form
 			posters.innerHTML = ""
 			data.forEach( movie =>{
@@ -432,7 +484,7 @@ $(document).ready(() =>{
 				document.getElementById("moviePosters").appendChild(container)
 
 			})
-			posters.setAttribute('class', 'd-flex flex-wrap justify-content-center justify-content-sm-start')
+			loaderToggle()
 
 		})
 	}
