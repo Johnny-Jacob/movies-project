@@ -14,19 +14,14 @@
 	<nav class="nav-bar p-2 bg-dark text-white row align-items-center justify-content-center justify-content-md-around">
 
         <div class="dropdown col">
-            <button class="btn btn-secondary " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div id="menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item">Add Movie</a>
-              <a class="dropdown-item">Edit Movie</a>
-              <a class="dropdown-item">Options</a>
-            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#movieAdd" id="addMovieButton">
+				<i class="fa fa-plus" aria-hidden="true"></i>
+			</button>
         </div>
 		
 		<form class="form-inline">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search" name="search" id="searchBar">
+				<input type="text" class="form-control" placeholder="Search" name="search" id="searchBar" autocomplete="off">
 				<div class="input-group-append">
                     <span class="input-group-text" id="basic-addon1">
                         <i class="fas fa-search"></i>
@@ -42,49 +37,39 @@
     </nav> <!-- end of navbar -->
     
 
-	<div id="add">
-
-
-		<h2 class="col p-2 m-2" id="modeTitle">Add Movie</h2>
-			
-
-		
-
-		<form id="addForm" class="form-group">
-
-			<div class="input-group m-2">
-				<input class="col form-control 0 d-inline" type="text" placeholder="Title" name="title" id="title">
-				<div class="input-group-append">
-					<button class="input-group-text btn d-inline" id="autoFillButton">
-						<i class="fas fa-film"></i> Autofill 
-					</button>
-				</div>
-			</div>
-
-			<input class="col form-control m-2" type="text" placeholder="Genre" name="genre" id="genre">
-			<!-- datepicker -->
-			<input name="year" type="text" class="form-control col m-2" data-provide="datepicker" placeholder="Year" id="year">
+	<div class="row">
+		<div class="col">
+			<input name="year" id="dateSearch" type="text" class="form-control col m-2" data-provide="datepicker" placeholder="Year" autocomplete="off">
 			<div class="input-group-addon">
 				<span class="glyphicon glyphicon-th"></span>
 			</div>
+		</div>
+		
 
-			<select class="form-control col m-2" id="rating" name="rating" placeholder="rating">
-				<option selected disabled value="1">Rating</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-			</select>
+		<select class="form-control col m-2" id="ratingSearch" name="rating" placeholder="rating">
+			<option selected value="">Rating</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</select>
 
-			<input class="col form-control m-2" type="text" placeholder="Director" name="director" id="director">
-			<textarea class="col form-control m-2" name="plot" id="plot" cols="30" rows="10" placeholder="Plot" id="plot"></textarea>
-			<input class="col form-control m-2" style="resize: none;" type="text" placeholder="Actors" name="actors" id="actors">
-
-			<button class="btn btn-primary m-2" id="submit">Submit form</button>
-
-		</form>
+		<select class="form-control col m-2" id="genreSearch" name="rating" placeholder="rating">
+			<option selected value="">Genre</option>
+			<option value="Action">Action</option>
+			<option value="Adventure">Adventure</option>
+			<option value="Animation">Animation</option>
+			<option value="Comedy">Comedy</option>
+			<option value="Crime">Crime</option>
+			<option value="Documentary">Documentary</option>
+			<option value="Drama">Drama</option>
+			<option value="Family">Family</option>
+			<option value="Fantasy">Fantasy</option>
+		</select>
 	</div>
+
+
 
     <div id="moviePosters" class="d-flex flex-wrap justify-content-center justify-content-sm-start">
 
@@ -92,6 +77,62 @@
 
 
 </div>
+
+
+	
+	
+	<!-- Modal -->
+	<div class="modal fade" id="movieAdd" tabindex="-1" role="dialog" aria-labelledby="movieAdd" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="modeTitle">Add Movie</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body">
+				<form id="addForm" class="form-group">
+
+					<div class="input-group m-2">
+						<input autocomplete="off" class="col form-control 0 d-inline" type="text" placeholder="Title" name="title" id="title">
+						<div class="input-group-append">
+							<button class="input-group-text btn d-inline" id="autoFillButton">
+								<i class="fas fa-film"></i> Autofill 
+							</button>
+						</div>
+					</div>
+		
+					<input class="col form-control m-2" type="text" placeholder="Genre" name="genre" id="genre">
+					<!-- datepicker -->
+					<input name="year" id="yearInput" autocomplete="off" type="text" class="form-control col m-2" data-provide="datepicker" placeholder="Year" id="year">
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-th"></span>
+					</div>
+		
+					<select class="form-control col m-2" id="rating" name="rating" placeholder="rating">
+						<option selected disabled value="1">Rating</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+		
+					<input autocomplete="off" class="col form-control m-2" type="text" placeholder="Director" name="director" id="director">
+					<textarea autocomplete="off" class="col form-control m-2" name="plot" id="plot" cols="30" rows="10" placeholder="Plot" id="plot"></textarea>
+					<input autocomplete="off" class="col form-control m-2" style="resize: none;" type="text" placeholder="Actors" name="actors" id="actors">
+		
+					
+		
+				</form>
+			</div>
+			<div class="modal-footer">
+			<button data-dismiss="modal" aria-label="Close" class="btn btn-primary m-2" id="submit">Add Movie</button>
+			</div>
+		</div>
+		</div>
+	</div>
 
 	<!-- Button trigger modal -->
   
@@ -136,7 +177,7 @@
 				
 			</div>
 			<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
 			</div>
 		</div>
 		</div>
